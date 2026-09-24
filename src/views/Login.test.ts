@@ -6,6 +6,10 @@ vi.mock('../services/api', () => ({
   api: { login: vi.fn() },
 }));
 
+vi.mock('vue-router', () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
+
 describe('Login', () => {
   it('renders the fields and sign-in action', () => {
     const w = mount(Login);
