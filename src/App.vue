@@ -1,0 +1,1 @@
+<template><nav><strong>WorkBoard</strong><a href="/login">Sign in</a></nav><main><RouterView/></main></template><style>body{font-family:Inter,system-ui;margin:0;background:#f6f7fb;color:#20242b}nav{display:flex;justify-content:space-between;padding:20px 8%;background:white}main{max-width:900px;margin:40px auto;padding:0 20px}a{color:inherit}</style>
