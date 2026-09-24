@@ -1,0 +1,1 @@
+import {mount} from '@vue/test-utils';import {describe,it,expect} from 'vitest';import Login from './Login.vue';describe('Login',()=>{it('shows validation feedback',async()=>{const w=mount(Login);await w.find('form').trigger('submit');expect(w.text()).toContain('Please enter valid credentials')})})
