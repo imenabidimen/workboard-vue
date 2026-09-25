@@ -1,16 +1,16 @@
 <template>
   <nav>
     <strong>WorkBoard</strong>
-    <RouterLink v-if="isSignedIn" to="/">My tasks</RouterLink>
+    <RouterLink v-if="route.path !== '/login'" to="/">My tasks</RouterLink>
     <RouterLink v-else to="/login">Sign in</RouterLink>
   </nav>
   <main><RouterView /></main>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-const isSignedIn = computed(() => Boolean(localStorage.getItem('accessToken')));
+const route = useRoute();
 </script>
 
 <style>
