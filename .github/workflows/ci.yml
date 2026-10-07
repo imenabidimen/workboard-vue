@@ -121,6 +121,9 @@ jobs:
           await page.getByRole('button', { name: 'Add task' }).click();
           await page.getByRole('button', { name: 'Complete' }).click();
 
+          await page.getByRole('button', { name: 'Done' }).waitFor({ state: 'visible' });
+          await page.locator('.done').filter({ hasText: 'Prepare deployment checklist' }).waitFor({ state: 'visible' });
+
           await page.screenshot({
             path: 'docs/screenshots/dashboard-completed-task.png',
             fullPage: true
