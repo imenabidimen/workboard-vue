@@ -1,9 +1,9 @@
 <template>
   <section class="auth-shell">
     <div class="intro">
-      <span class="pill">FOCUS · PLAN · SHIP</span>
-      <h1>Turn a busy day into a clear plan.</h1>
-      <p>WorkBoard keeps personal engineering work visible, lightweight and easy to finish.</p>
+      <span class="pill">TODAY · TASKS · DONE</span>
+      <h1>Keep today's work in one place.</h1>
+      <p>A small workspace for the work you need to get through today.</p>
       <div class="benefits"><div><b>01</b><span>Capture work quickly</span></div><div><b>02</b><span>Track what is still open</span></div><div><b>03</b><span>Close the loop</span></div></div>
     </div>
     <section class="card">
