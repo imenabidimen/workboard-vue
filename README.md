@@ -1,32 +1,52 @@
 # WorkBoard
 
-A Vue 3 operations workspace for people who need to keep a short list of work moving. It is intentionally practical rather than a dashboard full of fake charts.
-
-Stack: Vue 3, TypeScript, Vite, Vue Router, Vitest.
+A Vue 3 + TypeScript task workspace that uses the **TaskForge NestJS API** as its backend. The project is intentionally small: the focus is on a clean API boundary, authentication flow, useful UI states, and maintainable frontend code.
 
 ## What it demonstrates
 
-- Protected login flow
-- API boundary for the NestJS TaskForge backend
+- Vue 3 + TypeScript + Vite
+- Vue Router with protected routes
+- Login and account creation against a NestJS API
+- Bearer-token authentication
 - Task creation and completion
-- Loading, empty, and error states
-- Responsive, low-friction UI
-- Component test coverage for the login experience
-- CI build verification
+- Loading, empty, validation, and API error states
+- Responsive UI
+- Vitest tests
+- GitHub Actions build/test verification
 
-## Product decisions
+## Architecture
 
-The UI favors useful states over decoration: a clear primary action, readable task status, and feedback when the API is unavailable. The frontend does not duplicate business rules that belong on the backend.
+```
+Vue 3 / TypeScript
+        |
+        | REST + Bearer token
+        v
+TaskForge API (NestJS)
+        |
+        v
+PostgreSQL
+```
+
+The backend lives in the separate **TaskForge API** repository so this repository stays focused on the client application. Run the API at `http://localhost:3000/api` or set `VITE_API_URL` to another instance.
 
 ## Run locally
 
+```bash
 npm install
 npm run dev
+```
+
+Checks:
+
+```bash
 npm test
 npm run build
+```
 
-Set VITE_API_URL when the API is not running at http://localhost:3000/api.
+## Screenshots
 
-## API contract
+Real runtime screenshots should be added here after starting the application locally. This repository intentionally does not use generated or mock product screenshots.
 
-The app expects the TaskForge endpoints for login and task management. This makes it possible to run the frontend against the NestJS repository without coupling the two codebases together.
+## Why this project exists
+
+WorkBoard complements the NestJS backend and the React client in the portfolio. It shows the same API contract implemented with Vue rather than duplicating backend logic.
