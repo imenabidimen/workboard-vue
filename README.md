@@ -1,18 +1,18 @@
 # WorkBoard
 
-A Vue 3 + TypeScript task workspace that uses the **TaskForge NestJS API** as its backend. The project is intentionally small: the focus is on a clean API boundary, authentication flow, useful UI states, and maintainable frontend code.
+A Vue 3 + TypeScript task workspace built around a small NestJS API. WorkBoard is the portfolio project focused on **personal execution**: capture work, see priorities, and close tasks without unnecessary complexity.
 
 ## What it demonstrates
 
 - Vue 3 + TypeScript + Vite
-- Vue Router with protected routes
-- Login and account creation against a NestJS API
+- Vue Router and protected application flow
+- Sign in and account creation
 - Bearer-token authentication
 - Task creation and completion
-- Loading, empty, validation, and API error states
+- Dashboard metrics and useful empty/loading/error states
 - Responsive UI
 - Vitest tests
-- GitHub Actions build/test verification
+- GitHub Actions browser verification with Playwright
 
 ## Architecture
 
@@ -27,40 +27,39 @@ TaskForge API (NestJS)
 PostgreSQL
 ```
 
-The backend lives in the separate **TaskForge API** repository so this repository stays focused on the client application. Run the API at `http://localhost:3000/api` or set `VITE_API_URL` to another instance.
+The backend lives in the separate **TaskForge API** repository. Run it at `http://localhost:3000/api` or set `VITE_API_URL`.
 
 ## Run locally
 
 ```bash
 npm install
 npm run dev
-```
-
-Checks:
-
-```bash
 npm test
 npm run build
 ```
 
-## Screenshots
+## Real application walkthrough
 
-These screenshots are captured from the **running Vue + NestJS + PostgreSQL stack in GitHub Actions using Playwright**. They are not mockups or generated product images.
+These screenshots are captured from the **running Vue + NestJS + PostgreSQL stack in GitHub Actions using Playwright**. They are real browser captures, not mockups.
 
-### Task created
+### 1. Sign in
 
-A real account creates a task through the Vue UI and the NestJS API.
+![WorkBoard sign in](docs/screenshots/01-sign-in.png)
 
-![WorkBoard task created](docs/screenshots/dashboard-task-created.png)
+### 2. Create an account
 
-### Task completed
+![WorkBoard sign up](docs/screenshots/02-sign-up.png)
 
-The same task is then completed through the UI and persisted through the API.
+### 3. Add a task
 
-![WorkBoard completed task](docs/screenshots/dashboard-completed-task.png)
+![WorkBoard task created](docs/screenshots/03-task-created.png)
 
-The CI job also runs the frontend tests/build, starts the real TaskForge API with PostgreSQL, executes the browser flow, and stores the screenshots as an artifact.
+### 4. Complete the task
+
+![WorkBoard task completed](docs/screenshots/04-task-completed.png)
+
+The CI pipeline tests/builds the frontend, starts the real API and PostgreSQL database, executes this browser journey, and uploads the screenshots as an artifact.
 
 ## Why this project exists
 
-WorkBoard complements the NestJS backend and the React client in the portfolio. It shows the same API contract implemented with Vue rather than duplicating backend logic.
+WorkBoard shows a focused Vue implementation with its own visual identity. It shares the backend contract with ClientHub, but the product experience is intentionally different: WorkBoard is a personal execution board rather than a client-delivery workspace.
