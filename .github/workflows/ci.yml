@@ -106,33 +106,27 @@ jobs:
           const password = 'RecruiterDemo123!';
 
           await page.goto('http://127.0.0.1:5173/login', { waitUntil: 'networkidle' });
-          await page.getByRole('heading', { name: 'Welcome back' }).waitFor({ state: 'visible' });
+          await page.getByRole('heading', { name: 'Sign in to WorkBoard' }).waitFor({ state: 'visible' });
+          await page.screenshot({ path: 'docs/screenshots/01-sign-in.png', fullPage: true });
 
-          await page.getByRole('button', { name: 'Need an account?' }).click();
-          await page.getByPlaceholder('Email').fill(email);
-          await page.getByPlaceholder('Password').fill(password);
-          await page.getByRole('button', { name: 'Create account' }).click();
+          await page.getByRole('button', { name: 'New here? Create an account' }).click();
+          await page.getByPlaceholder('you@example.com').fill(email);
+          await page.getByPlaceholder('Minimum 8 characters').fill(password);
+          await page.screenshot({ path: 'docs/screenshots/02-sign-up.png', fullPage: true });
 
+          await page.getByRole('button', { name: 'Create account →' }).click();
           await page.waitForURL('http://127.0.0.1:5173/', { timeout: 15000 });
-          await page.getByPlaceholder('What needs doing?').fill('Prepare deployment checklist');
-          await page.getByRole('button', { name: 'Add task' }).click();
-
           await page.getByRole('heading', { name: 'My tasks' }).waitFor({ state: 'visible' });
+
+          await page.getByLabel('New task').fill('Prepare deployment checklist');
+          await page.getByRole('button', { name: 'Add task' }).click();
           await page.getByText('Prepare deployment checklist').waitFor({ state: 'visible' });
-          await page.screenshot({
-            path: 'docs/screenshots/dashboard-task-created.png',
-            fullPage: true
-          });
+          await page.screenshot({ path: 'docs/screenshots/03-task-created.png', fullPage: true });
 
           await page.getByRole('button', { name: 'Complete' }).click();
-
           await page.getByRole('button', { name: 'Done' }).waitFor({ state: 'visible' });
-          await page.locator('.done').filter({ hasText: 'Prepare deployment checklist' }).waitFor({ state: 'visible' });
-
-          await page.screenshot({
-            path: 'docs/screenshots/dashboard-completed-task.png',
-            fullPage: true
-          });
+          await page.locator('.completed').filter({ hasText: 'Prepare deployment checklist' }).waitFor({ state: 'visible' });
+          await page.screenshot({ path: 'docs/screenshots/04-task-completed.png', fullPage: true });
 
           await browser.close();
           EOF
