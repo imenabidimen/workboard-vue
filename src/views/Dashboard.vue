@@ -12,12 +12,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed,onMounted,ref } from 'vue';import { api } from '../services/api';
-type Task={id:string;title:string;completed:boolean};const tasks=ref<Task[]>([]);const title=ref('');const loading=ref(true);const busy=ref(false);const error=ref('');
-const completedCount=computed(()=>tasks.value.filter(t=>t.completed).length);const openCount=computed(()=>tasks.value.length-completedCount.value);
-async function load(){try{tasks.value=await api.tasks()}catch{error.value='Could not load tasks.'}finally{loading.value=false}}
-async function add(){busy.value=true;error.value='';try{tasks.value.unshift(await api.createTask(title.value));title.value=''}catch{error.value='Could not create task.'}finally{busy.value=false}}
-async function complete(id:string){try{const updated=await api.completeTask(id);const i=tasks.value.findIndex(t=>t.id===id);if(i>=0)tasks.value[i]=updated}catch{error.value='Could not update task.'}}
+import { computed,onMounted,ref } from 'vue';
+import { api } from '../services/api';
+type Task = {
+  id:string;
+  title: string;
+  completed:boolean};const tasks = ref<Task[]>([]);const title = ref('');const loading = ref(true);const busy = ref(false);const error = ref('');
+const completedCount = computed(()=>tasks.value.filter(t=>t.completed).length);const openCount = computed(()=>tasks.value.length-completedCount.value);
+async function load() {
+  try{tasks.value=await api.tasks()}catch{error.value='Could not load tasks.'}finally{loading.value=false}}
+async function add() {
+  busy.value=true;error.value='';try{tasks.value.unshift(await api.createTask(title.value));title.value=''}catch{error.value='Could not create task.'}finally{busy.value=false}}
+async function complete(id: string) {
+  try{const updated=await api.completeTask(id);const i=tasks.value.findIndex(t=>t.id===id);if(i>=0)tasks.value[i]=updated}catch{error.value='Could not update task.'}}
 onMounted(load);
 </script>
 
