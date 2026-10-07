@@ -20,6 +20,7 @@ jobs:
     env:
       DATABASE_URL: postgresql://taskforge:taskforge@localhost:5432/taskforge?schema=public
       JWT_SECRET: ci-test-secret
+      CORS_ORIGIN: http://127.0.0.1:5173
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -55,7 +56,7 @@ jobs:
 
       - name: Capture real app screenshots
         run: |
-          curl --retry 20 --retry-delay 1 --retry-connrefused http://127.0.0.1:3000/api/health || true
+          curl --retry 30 --retry-delay 1 --retry-connrefused http://127.0.0.1:3000/api/docs
           curl --retry 20 --retry-delay 1 --retry-connrefused http://127.0.0.1:5173/login
           cat > capture.mjs <<'EOF'
           import { chromium } from 'playwright';
