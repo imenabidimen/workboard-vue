@@ -1,65 +1,59 @@
 # WorkBoard
 
-A Vue 3 + TypeScript task workspace built around a small NestJS API. WorkBoard is the portfolio project focused on **personal execution**: capture work, see priorities, and close tasks without unnecessary complexity.
+A Vue 3 task workspace for keeping a personal list of work simple: add something, see what is still open, and mark it done.
 
-## What it demonstrates
+The frontend talks to the TaskForge API and uses bearer-token authentication.
 
-- Vue 3 + TypeScript + Vite
-- Vue Router and protected application flow
+## Stack
+
+- Vue 3
+- TypeScript
+- Vite
+- Vue Router
+- Vitest
+
+## What I built
+
 - Sign in and account creation
-- Bearer-token authentication
-- Task creation and completion
-- Dashboard metrics and useful empty/loading/error states
-- Responsive UI
-- Vitest tests
-- GitHub Actions browser verification with Playwright
-
-## Architecture
-
-```
-Vue 3 / TypeScript
-        |
-        | REST + Bearer token
-        v
-TaskForge API (NestJS)
-        |
-        v
-PostgreSQL
-```
-
-The backend lives in the separate **TaskForge API** repository. Run it at `http://localhost:3000/api` or set `VITE_API_URL`.
+- Protected workspace
+- Create and complete tasks
+- Open / completed / total counters
+- Loading, empty and error states
+- Responsive layout
+- API error handling and expired-session handling
 
 ## Run locally
+
+Start TaskForge API on `http://localhost:3000/api`, then:
 
 ```bash
 npm install
 npm run dev
+```
+
+Tests and production build:
+
+```bash
 npm test
 npm run build
 ```
 
-## Real application walkthrough
+## Screenshots
 
-These screenshots are captured from the **running Vue + NestJS + PostgreSQL stack in GitHub Actions using Playwright**. They are real browser captures, not mockups.
+These are browser captures from the application running against the API and PostgreSQL database in GitHub Actions.
 
-### 1. Sign in
-
+### Sign in
 ![WorkBoard sign in](docs/screenshots/01-sign-in.png)
 
-### 2. Create an account
-
+### Create an account
 ![WorkBoard sign up](docs/screenshots/02-sign-up.png)
 
-### 3. Add a task
-
+### Add a task
 ![WorkBoard task created](docs/screenshots/03-task-created.png)
 
-### 4. Complete the task
-
+### Complete a task
 ![WorkBoard task completed](docs/screenshots/04-task-completed.png)
 
-The CI pipeline tests/builds the frontend, starts the real API and PostgreSQL database, executes this browser journey, and uploads the screenshots as an artifact.
+## Why Vue?
 
-## Why this project exists
-
-WorkBoard shows a focused Vue implementation with its own visual identity. It shares the backend contract with ClientHub, but the product experience is intentionally different: WorkBoard is a personal execution board rather than a client-delivery workspace.
+WorkBoard is the Vue implementation of this small task workflow. ClientHub implements the same backend contract in React, with a different UI and use case.
