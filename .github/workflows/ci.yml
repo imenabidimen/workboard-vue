@@ -56,6 +56,11 @@ jobs:
 
       - name: Capture real app screenshots
         run: |
+          sleep 3
+          echo '--- TaskForge API log ---'
+          cat /tmp/taskforge-api.log || true
+          echo '--- TaskForge API processes ---'
+          ps -ef | grep '[n]ode'
           curl --retry 30 --retry-delay 1 --retry-connrefused http://127.0.0.1:3000/api/docs
           curl --retry 20 --retry-delay 1 --retry-connrefused http://127.0.0.1:5173/login
           cat > capture.mjs <<'EOF'
