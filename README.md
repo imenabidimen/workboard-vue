@@ -45,7 +45,19 @@ npm run build
 
 ## Screenshots
 
-Real runtime screenshots should be added here after starting the application locally. This repository intentionally does not use generated or mock product screenshots.
+These screenshots are captured from the **running Vue + NestJS + PostgreSQL stack in GitHub Actions using Playwright**. They are not mockups or generated product images.
+
+### Login
+
+![WorkBoard login](docs/screenshots/login.png)
+
+### Task workflow
+
+The second capture shows a real account creating a task and completing it.
+
+![WorkBoard completed task](docs/screenshots/dashboard-completed-task.png)
+
+The CI job also runs the frontend tests/build, starts the real TaskForge API with PostgreSQL, executes the browser flow, and stores the screenshots as an artifact.
 
 ## Why this project exists
 
