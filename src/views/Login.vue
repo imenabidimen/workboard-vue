@@ -28,17 +28,40 @@ import { api } from '../services/api';
 
 const mode = ref<'login' | 'register'>('login');
 const email = ref('');
-
 const password = ref('');
-
 const error = ref('');
-
 const busy = ref(false);
+
 const router = useRouter();
+
 function toggleMode() {
-  mode.value=mode.value==='login'?'register':'login';error.value=''}
+  mode.value = mode.value === 'login' ? 'register' : 'login';
+  error.value = '';
+}
+
 async function submit() {
-  busy.value=true;error.value='';try{const result=mode.value==='login'?await api.login(email.value,password.value):await api.register(email.value,password.value);localStorage.setItem('accessToken',result.accessToken);router.push('/')}catch(err){error.value=mode.value==='login'?'Unable to sign in. Check your credentials.':err instanceof Error?err.message:'Unable to create the account.'}finally{busy.value=false}}
+  busy.value = true;
+  error.value = '';
+
+  try {
+    const result =
+      mode.value === 'login'
+        ? await api.login(email.value, password.value)
+        : await api.register(email.value, password.value);
+
+    localStorage.setItem('accessToken', result.accessToken);
+    router.push('/');
+  } catch (err) {
+    error.value =
+      mode.value === 'login'
+        ? 'Unable to sign in. Check your credentials.'
+        : err instanceof Error
+          ? err.message
+          : 'Unable to create the account.';
+  } finally {
+    busy.value = false;
+  }
+}
 </script>
 
 <style scoped>
