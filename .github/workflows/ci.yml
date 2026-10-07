@@ -105,12 +105,6 @@ jobs:
           const email = `recruiter-${Date.now()}@example.com`;
           const password = 'RecruiterDemo123!';
 
-          await page.goto('http://127.0.0.1:5173/login', { waitUntil: 'networkidle' });
-          await page.screenshot({
-            path: 'docs/screenshots/login.png',
-            fullPage: true
-          });
-
           await page.getByRole('button', { name: 'Need an account?' }).click();
           await page.getByPlaceholder('Email').fill(email);
           await page.getByPlaceholder('Password').fill(password);
@@ -119,6 +113,14 @@ jobs:
           await page.waitForURL('http://127.0.0.1:5173/', { timeout: 15000 });
           await page.getByPlaceholder('What needs doing?').fill('Prepare deployment checklist');
           await page.getByRole('button', { name: 'Add task' }).click();
+
+          await page.getByRole('heading', { name: 'My tasks' }).waitFor({ state: 'visible' });
+          await page.getByText('Prepare deployment checklist').waitFor({ state: 'visible' });
+          await page.screenshot({
+            path: 'docs/screenshots/dashboard-task-created.png',
+            fullPage: true
+          });
+
           await page.getByRole('button', { name: 'Complete' }).click();
 
           await page.getByRole('button', { name: 'Done' }).waitFor({ state: 'visible' });
