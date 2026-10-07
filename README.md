@@ -47,13 +47,15 @@ npm run build
 
 These screenshots are captured from the **running Vue + NestJS + PostgreSQL stack in GitHub Actions using Playwright**. They are not mockups or generated product images.
 
-### Login
+### Task created
 
-![WorkBoard login](docs/screenshots/login.png)
+A real account creates a task through the Vue UI and the NestJS API.
 
-### Task workflow
+![WorkBoard task created](docs/screenshots/dashboard-task-created.png)
 
-The second capture shows a real account creating a task and completing it.
+### Task completed
+
+The same task is then completed through the UI and persisted through the API.
 
 ![WorkBoard completed task](docs/screenshots/dashboard-completed-task.png)
 
