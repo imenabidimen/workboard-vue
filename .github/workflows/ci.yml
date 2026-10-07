@@ -55,7 +55,9 @@ jobs:
 
       - name: Capture real app screenshots
         run: |
-          cat > /tmp/capture.mjs <<'EOF'
+          curl --retry 20 --retry-delay 1 --retry-connrefused http://127.0.0.1:3000/api/health || true
+          curl --retry 20 --retry-delay 1 --retry-connrefused http://127.0.0.1:5173/login
+          cat > capture.mjs <<'EOF'
           import { chromium } from 'playwright';
           const browser = await chromium.launch();
           const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
@@ -75,7 +77,7 @@ jobs:
           await browser.close();
           EOF
           mkdir -p docs
-          node /tmp/capture.mjs
+          node capture.mjs
 
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
