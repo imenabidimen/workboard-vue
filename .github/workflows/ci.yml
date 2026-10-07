@@ -1,8 +1,25 @@
 name: CI
-on: [push,pull_request]
+on: [push, pull_request]
 jobs:
   build-test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: taskforge
+          POSTGRES_USER: taskforge
+          POSTGRES_PASSWORD: taskforge
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U taskforge -d taskforge"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://taskforge:taskforge@localhost:5432/taskforge?schema=public
+      JWT_SECRET: ci-test-secret
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -11,3 +28,57 @@ jobs:
       - run: npm install
       - run: npm test
       - run: npm run build
+
+      - name: Build TaskForge API
+        working-directory: /tmp
+        run: |
+          git clone "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY_OWNER}/taskforge-api.git" taskforge-api
+          cd taskforge-api
+          npm install
+          npm run prisma:generate
+          npx prisma migrate deploy
+          npm run build
+
+      - name: Start TaskForge API
+        working-directory: /tmp/taskforge-api
+        run: nohup node dist/main.js > /tmp/taskforge-api.log 2>&1 &
+
+      - name: Install Playwright
+        run: npm install -D playwright
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start WorkBoard
+        run: nohup npm run dev -- --host 0.0.0.0 > /tmp/workboard.log 2>&1 &
+
+      - name: Capture real app screenshots
+        run: |
+          cat > /tmp/capture.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          const browser = await chromium.launch();
+          const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+          const email = `recruiter-${Date.now()}@example.com`;
+          const password = 'RecruiterDemo123!';
+          await page.goto('http://127.0.0.1:5173/login');
+          await page.screenshot({ path: 'docs/login.png', fullPage: true });
+          await page.getByRole('button', { name: 'Need an account?' }).click();
+          await page.getByPlaceholder('Email').fill(email);
+          await page.getByPlaceholder('Password').fill(password);
+          await page.getByRole('button', { name: 'Create account' }).click();
+          await page.waitForURL('http://127.0.0.1:5173/');
+          await page.getByPlaceholder('What needs doing?').fill('Prepare deployment checklist');
+          await page.getByRole('button', { name: 'Add task' }).click();
+          await page.getByRole('button', { name: 'Complete' }).click();
+          await page.screenshot({ path: 'docs/dashboard.png', fullPage: true });
+          await browser.close();
+          EOF
+          mkdir -p docs
+          node /tmp/capture.mjs
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: workboard-real-screenshots
+          path: docs/*.png
+          retention-days: 30
