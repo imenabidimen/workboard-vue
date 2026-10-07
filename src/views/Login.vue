@@ -39,11 +39,14 @@ async function submit() {
     localStorage.setItem('accessToken', result.accessToken);
     router.push('/');
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Unable to complete the request.';
+    if (mode.value === 'login') {
+      error.value = 'Unable to sign in. Check your credentials.';
+    } else {
+      error.value = err instanceof Error ? err.message : 'Unable to create the account.';
+    }
   } finally {
     busy.value = false;
   }
-}
 </script>
 
 <style scoped>
