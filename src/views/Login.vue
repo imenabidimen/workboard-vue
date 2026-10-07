@@ -47,6 +47,7 @@ async function submit() {
   } finally {
     busy.value = false;
   }
+}
 </script>
 
 <style scoped>
