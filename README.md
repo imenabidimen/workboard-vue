@@ -28,7 +28,7 @@ Related work: [ClientHub (React)](https://github.com/imenabidimen/clienthub-reac
 Start [TaskForge API](https://github.com/imenabidimen/taskforge-api) first, with its API available at `http://localhost:3000/api`. Then run:
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
