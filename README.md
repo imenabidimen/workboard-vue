@@ -1,37 +1,33 @@
 # WorkBoard
 
-A Vue 3 task workspace for keeping a personal list of work simple: add something, see what is still open, and mark it done.
-
-The frontend talks to the TaskForge API and uses bearer-token authentication.
+WorkBoard is a Vue 3 task list. Sign in, add work, and mark tasks complete. It uses the TaskForge API for authentication and persistence.
 
 ## Stack
 
-- Vue 3
-- TypeScript
-- Vite
+- Vue 3, TypeScript and Vite
 - Vue Router
-- Vitest
+- Vitest and Vue Test Utils
+- TaskForge API (NestJS, PostgreSQL)
 
-## What I built
+## Current features
 
-- Sign in and account creation
-- Protected workspace
-- Create and complete tasks
-- Open / completed / total counters
+- Account creation and sign-in
+- A route guard for the workspace
+- Create tasks and mark them complete
+- Open, completed and total counters
 - Loading, empty and error states
-- Responsive layout
-- API error handling and expired-session handling
+- Responsive layout and expired-session handling
 
 ## Run locally
 
-Start TaskForge API on `http://localhost:3000/api`, then:
+Start [TaskForge API](https://github.com/imenabidimen/taskforge-api) first, with its API available at `http://localhost:3000/api`. Then run:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Tests and production build:
+If the API is running elsewhere, set `VITE_API_URL` to its base URL, including `/api`.
 
 ```bash
 npm test
@@ -40,7 +36,7 @@ npm run build
 
 ## Screenshots
 
-These are browser captures from the application running against the API and PostgreSQL database in GitHub Actions.
+The screenshots below are browser captures from the CI workflow, which runs the frontend against TaskForge and PostgreSQL.
 
 ### Sign in
 ![WorkBoard sign in](docs/screenshots/01-sign-in.png)
@@ -54,6 +50,6 @@ These are browser captures from the application running against the API and Post
 ### Complete a task
 ![WorkBoard task completed](docs/screenshots/04-task-completed.png)
 
-## Why Vue?
+## Implementation note
 
-WorkBoard is the Vue implementation of this small task workflow. ClientHub implements the same backend contract in React, with a different UI and use case.
+WorkBoard keeps the task workflow deliberately small. Task ownership and persistence live in the API; the frontend sends a bearer token and displays the returned task state.
