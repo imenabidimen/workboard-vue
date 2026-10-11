@@ -12,10 +12,15 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
-const isAuthenticated = computed(() => Boolean(localStorage.getItem('accessToken')));
+const route = useRoute();
+
+// The route changes after sign-in/sign-out, so this computed value is refreshed.
+const isAuthenticated = computed(
+  () => Boolean(route.fullPath) && Boolean(localStorage.getItem('accessToken'))
+);
 
 function logout() {
   localStorage.removeItem('accessToken');
