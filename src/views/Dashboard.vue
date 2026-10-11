@@ -68,6 +68,8 @@ async function add() {
 }
 
 async function complete(id: string) {
+  error.value = '';
+
   try {
     const updated = await api.completeTask(id);
     const index = tasks.value.findIndex((task) => task.id === id);
