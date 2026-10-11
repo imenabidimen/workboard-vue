@@ -3,10 +3,10 @@
     <div class="hero"><div><p class="eyebrow">TODAY'S WORKSPACE</p><h1>My tasks</h1><p class="sub">A focused list for the things that need to move forward.</p></div><div class="date-card"><span>STATUS</span><b>{{ completedCount }} / {{ tasks.length }}</b><small>completed</small></div></div>
     <div class="stats"><div><span>Open</span><strong>{{ openCount }}</strong></div><div><span>Completed</span><strong>{{ completedCount }}</strong></div><div><span>Total</span><strong>{{ tasks.length }}</strong></div></div>
     <section class="board">
-      <form @submit.prevent="add" class="composer"><input v-model="title" placeholder="What needs doing?" minlength="2" required aria-label="New task" /><button :disabled="busy">{{ busy ? 'Adding…' : 'Add task' }}</button></form>
+      <form @submit.prevent="add" class="composer"><input v-model="title" placeholder="What needs doing?" minlength="2" maxlength="120" required aria-label="New task" /><button :disabled="busy">{{ busy ? 'Adding…' : 'Add task' }}</button></form>
       <p v-if="loading" class="muted">Loading your workspace…</p><p v-if="error" class="error">{{ error }}</p>
-      <div v-if="!loading && !tasks.length" class="empty"><span>✓</span><div><b>Nothing queued</b><p>You are all caught up. Add your next task above.</p></div></div>
-      <ul v-else class="tasks"><li v-for="task in tasks" :key="task.id" :class="{completed:task.completed}"><div class="task-main"><span class="status-dot"></span><div><strong>{{ task.title }}</strong><small>{{ task.completed ? 'Completed' : 'In progress' }}</small></div></div><button class="complete" @click="complete(task.id)" :disabled="task.completed">{{ task.completed ? 'Done' : 'Complete' }}</button></li></ul>
+      <div v-if="!loading && !error && !tasks.length" class="empty"><span>✓</span><div><b>Nothing queued</b><p>You are all caught up. Add your next task above.</p></div></div>
+      <ul v-else-if="tasks.length" class="tasks"><li v-for="task in tasks" :key="task.id" :class="{completed:task.completed}"><div class="task-main"><span class="status-dot"></span><div><strong>{{ task.title }}</strong><small>{{ task.completed ? 'Completed' : 'In progress' }}</small></div></div><button class="complete" @click="complete(task.id)" :disabled="task.completed">{{ task.completed ? 'Done' : 'Complete' }}</button></li></ul>
     </section>
   </section>
 </template>
@@ -46,11 +46,18 @@ async function load() {
 }
 
 async function add() {
-  busy.value = true;
+  const cleanTitle = title.value.trim();
   error.value = '';
 
+  if (cleanTitle.length < 2) {
+    error.value = 'Enter a task with at least 2 characters.';
+    return;
+  }
+
+  busy.value = true;
+
   try {
-    const task = await api.createTask(title.value);
+    const task = await api.createTask(cleanTitle);
     tasks.value.unshift(task);
     title.value = '';
   } catch {
