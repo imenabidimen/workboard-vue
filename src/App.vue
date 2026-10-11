@@ -1,6 +1,6 @@
 <template>
   <nav class="nav">
-    <div class="brand"><span class="brand-mark">W</span><div><strong>WorkBoard</strong><small>Personal execution space</small></div></div>
+    <div class="brand"><span class="brand-mark">W</span><div><strong>WorkBoard</strong><small>Personal task list</small></div></div>
     <div class="nav-links">
       <RouterLink v-if="isAuthenticated" to="/">Workspace</RouterLink>
       <RouterLink v-else to="/login">Sign in</RouterLink>
