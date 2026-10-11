@@ -58,3 +58,9 @@ The screenshots below are browser captures from the CI workflow, which runs the 
 ## Implementation note
 
 WorkBoard keeps the task workflow deliberately small. Task ownership and persistence live in the API; the frontend sends a bearer token and displays the returned task state.
+
+## What this project is meant to demonstrate
+
+WorkBoard is intentionally the smaller of the two frontends. I use it to keep the task flow easy to follow: authenticate, create a task, and change its status. The important edge case is the failed completion request: the interface should show an error and keep the task open instead of displaying a success state that the API never confirmed.
+
+It shares the API with ClientHub on purpose, so the frontend differences can be compared without also changing the backend contract. It is not intended to be a second, unrelated product.
