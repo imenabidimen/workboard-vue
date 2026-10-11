@@ -2,10 +2,9 @@
 
 ![CI](https://github.com/imenabidimen/workboard-vue/actions/workflows/ci.yml/badge.svg)
 
-**Portfolio role:** a Vue 3 + TypeScript frontend focused on a straightforward personal task workflow. It uses the shared [TaskForge API](https://github.com/imenabidimen/taskforge-api), so authentication and persistence are handled by the backend rather than simulated in the browser.
+WorkBoard is the Vue 3 version of a small personal task list. A user signs in, adds a task, and marks it complete. It uses the shared [TaskForge API](https://github.com/imenabidimen/taskforge-api) for accounts and saved task data; the browser does not keep a separate mock task store.
 
-Related work: [ClientHub (React)](https://github.com/imenabidimen/clienthub-react) uses the same API contract with a separate interface; [Foody](https://github.com/imenabidimen/Abid_Araari_Trabelsi_lglsi2c) is an earlier university project.
-
+[ClientHub](https://github.com/imenabidimen/clienthub-react) uses the same API from a React interface, but is aimed at reviewing a list of deliverables with search, status filters and a progress summary. WorkBoard stays focused on the basic task flow.
 
 ## Stack
 
@@ -14,14 +13,14 @@ Related work: [ClientHub (React)](https://github.com/imenabidimen/clienthub-reac
 - Vitest and Vue Test Utils
 - TaskForge API (NestJS, PostgreSQL)
 
-## Current features
+## What you can do
 
-- Account creation and sign-in
-- A route guard for the workspace
-- Create tasks and mark them complete
-- Open, completed and total counters
-- Loading, empty and error states
-- Responsive layout and expired-session handling
+- Create an account and sign in
+- Open the workspace behind a route guard
+- Add a task and mark it complete
+- See open, completed and total task counts
+- Get loading, empty and API-error feedback
+- Recover from an expired session instead of staying in a broken signed-in state
 
 ## Run locally
 
@@ -41,7 +40,7 @@ npm run build
 
 ## Screenshots
 
-The screenshots below are browser captures from the CI workflow, which runs the frontend against TaskForge and PostgreSQL.
+These images are captured by the CI browser test while WorkBoard is running against TaskForge and PostgreSQL.
 
 ### Sign in
 ![WorkBoard sign in](docs/screenshots/01-sign-in.png)
@@ -55,12 +54,8 @@ The screenshots below are browser captures from the CI workflow, which runs the 
 ### Complete a task
 ![WorkBoard task completed](docs/screenshots/04-task-completed.png)
 
-## Implementation note
+## One behavior worth checking
 
-WorkBoard keeps the task workflow deliberately small. Task ownership and persistence live in the API; the frontend sends a bearer token and displays the returned task state.
+When the API rejects a completion request, WorkBoard should not cross the task off locally or show a false success. The page keeps the task open and reports the error, because the server is the source of truth. There is a regression test for this case.
 
-## What this project is meant to demonstrate
-
-WorkBoard is intentionally the smaller of the two frontends. I use it to keep the task flow easy to follow: authenticate, create a task, and change its status. The important edge case is the failed completion request: the interface should show an error and keep the task open instead of displaying a success state that the API never confirmed.
-
-It shares the API with ClientHub on purpose, so the frontend differences can be compared without also changing the backend contract. It is not intended to be a second, unrelated product.
+The point of this project is a small, easy-to-follow Vue implementation of authentication and task updates. It deliberately does not add a second domain model or duplicate the backend rules already enforced by TaskForge.
