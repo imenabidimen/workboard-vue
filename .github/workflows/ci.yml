@@ -42,7 +42,7 @@ jobs:
           node-version: '22'
 
       - name: Install WorkBoard dependencies
-        run: npm install
+        run: npm ci
 
       - name: Test WorkBoard
         run: npm test
@@ -55,7 +55,7 @@ jobs:
         run: |
           git clone "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY_OWNER}/taskforge-api.git" taskforge-api
           cd taskforge-api
-          npm install
+          npm ci
           npm run prisma:generate
           npx prisma migrate deploy
           npm run build
