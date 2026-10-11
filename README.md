@@ -7,8 +7,6 @@
 Related work: [ClientHub (React)](https://github.com/imenabidimen/clienthub-react) uses the same API contract with a separate interface; [Foody](https://github.com/imenabidimen/Abid_Araari_Trabelsi_lglsi2c) is an earlier university project.
 
 
-WorkBoard is a Vue 3 task list. Sign in, add work, and mark tasks complete. It uses the TaskForge API for authentication and persistence.
-
 ## Stack
 
 - Vue 3, TypeScript and Vite
