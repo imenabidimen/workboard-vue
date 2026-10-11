@@ -42,6 +42,23 @@ describe('Dashboard', () => {
     expect(mockedApi.createTask).not.toHaveBeenCalled();
   });
 
+  it('keeps the task open and shows an error when completion fails', async () => {
+    mockedApi.tasks.mockResolvedValueOnce([
+      { id: 'task-1', title: 'Prepare release', completed: false },
+    ]);
+    mockedApi.completeTask.mockRejectedValueOnce(new Error('network unavailable'));
+
+    const wrapper = mount(Dashboard);
+    await flushPromises();
+
+    await wrapper.get('button.complete').trigger('click');
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('Could not update task.');
+    expect(wrapper.text()).toContain('Prepare release');
+    expect(wrapper.find('button.complete').text()).toBe('Complete');
+  });
+
   it('sends a trimmed title and adds the returned task', async () => {
     const task = { id: 'task-1', title: 'Prepare release', completed: false };
     mockedApi.tasks.mockResolvedValueOnce([]);
